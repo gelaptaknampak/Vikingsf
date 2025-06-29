@@ -17,10 +17,10 @@ const NewsDetail = () => {
   }, [id]);
 
   if (!news)
-    return <div className="text-center mt-10 text-white">Loading...</div>;
+    return <div className="text-center mt-10 text-white font-['Bebas_Neue']">Loading...</div>;
 
   return (
-    <section className="h-full">
+    <section className="h-full font-['Bebas_Neue']">
       <div className="bg-cover bg-no-repeat main-background-container text-left">
         <div className="flex flex-col items-center justify-center mx-8">
           <img src={LOGO} alt="Logo" className="w-[25%] mt-12" />

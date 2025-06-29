@@ -104,7 +104,7 @@ export default function ServerInfo() {
     switch (sectionKey) {
       case "featureInfo":
         return (
-          <div className="w-full text-sm">
+          <div className="w-full text-sm font-['Bebas_Neue']">
             <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
               <div className="w-1/2">Item Name</div>
               <div className="w-1/4">Type</div>
@@ -124,7 +124,7 @@ export default function ServerInfo() {
         );
       case "generalInfo":
         return (
-          <div className="w-full text-sm flex flex-col gap-6">
+          <div className="w-full text-sm flex flex-col gap-6 font-['Bebas_Neue']">
             {data.serversInfo && data.serversInfo.length > 0 && (
               <div>
                 <h3 className="font-bold text-center text-lg border-b-2 border-yellow-400 pb-1 mb-2">
@@ -201,7 +201,7 @@ export default function ServerInfo() {
         );
       case "npcList":
         return (
-          <div className="w-full text-sm">
+          <div className="w-full text-sm font-['Bebas_Neue']">
             <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
               <div className="w-1/3">NPC</div>
               <div className="w-1/3">Map</div>
@@ -223,7 +223,7 @@ export default function ServerInfo() {
         );
       case "dropList":
         return (
-          <div className="w-full text-sm">
+          <div className="w-full text-sm font-['Bebas_Neue']">
             <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
               <div className="w-1/3">Monster</div>
               <div className="w-1/3">Map</div>
@@ -250,21 +250,21 @@ export default function ServerInfo() {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-screen text-white">
+      <div className="flex justify-center items-center h-screen text-white font-['Bebas_Neue']">
         Loading Server Information...
       </div>
     );
   if (error)
     return (
         // Displaying the modified, more informative error message
-      <div className="flex justify-center items-center h-screen text-red-500 font-bold">
+      <div className="flex justify-center items-center h-screen text-red-500 font-bold font-['Bebas_Neue']">
         ERROR: {error}
       </div>
     );
 
   // The rest of your return statement (JSX) is correct and does not need changes.
   return (
-    <section className="h-full">
+    <section className="h-full font-['Bebas_Neue']">
       <div className="bg-cover bg-no-repeat main-background-container">
         <div className="flex flex-col items-center justify-center mx-8">
           <img src={LOGO} alt="Logo" className="w-[25%] mt-12" />

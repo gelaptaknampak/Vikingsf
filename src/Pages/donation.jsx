@@ -114,7 +114,7 @@ export default function Donation() {
   };
 
   return (
-    <section className="h-full">
+    <section className="h-full font-['Bebas_Neue']">
       <div className="bg-cover bg-no-repeat main-background-container">
         <div className="flex flex-col items-center justify-center mx-8">
           <img src={LOGO} alt="Logo" className="w-[25%] mt-12" />

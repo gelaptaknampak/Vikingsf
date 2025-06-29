@@ -178,7 +178,7 @@ export default function QuestInfo() {
   }
 
   return (
-    <section className="h-full">
+    <section className="h-full font-['Bebas_Neue']">
       <div className="bg-cover bg-no-repeat main-background-container">
         {/* Header and server info */}
         <div className="flex flex-col items-center justify-center mx-8">

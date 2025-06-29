@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import api from "../../Components/api";
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute left-4 z-20 top-1/2 -translate-y-1/2 cursor-pointer"
+    className="absolute left-4 z-20 top-1/2 -translate-y-1/2 cursor-pointer font-['Bebas_Neue']"
     onClick={onClick}
   >
     <IoMdArrowDropleft className="text-gray-100 text-6xl hover:text-gray-300" />
@@ -20,7 +20,7 @@ const PrevArrow = ({ onClick }) => (
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute right-4 z-20 top-1/2 -translate-y-1/2 cursor-pointer"
+    className="absolute right-4 z-20 top-1/2 -translate-y-1/2 cursor-pointer font-['Bebas_Neue']"
     onClick={onClick}
   >
     <IoMdArrowDropright className="text-gray-100 text-6xl hover:text-gray-300" />
@@ -29,7 +29,7 @@ const NextArrow = ({ onClick }) => (
 
 const CarouselCard = ({ image, title, subtitle }) => {
   return (
-    <div className="relative w-full h-[672px] overflow-hidden group">
+    <div className="relative w-full h-[672px] overflow-hidden group font-['Bebas_Neue']">
       <img
         src={image}
         alt={title}
@@ -48,7 +48,7 @@ const CarouselCard = ({ image, title, subtitle }) => {
 
 const NewsList = ({ image, title, description, onReadMore }) => {
   return (
-    <div className="relative overflow-hidden flex flex-row w-full">
+    <div className="relative overflow-hidden flex flex-row w-full font-['Bebas_Neue']">
       <div className="relative z-10 mx-10 mt-12 my-6 flex flex-row w-full">
         <img
           src={image}
@@ -108,7 +108,7 @@ const News = () => {
   };
 
   return (
-    <section className="h-full w-full">
+    <section className="h-full w-full font-['Bebas_Neue']">
       <div className="w-full bg-cover bg-no-repeat main-background-container text-left overflow-x-hidden">
         <div className="flex flex-col items-center justify-center mx-8">
           <img src={LOGO} alt="Logo" className="w-[25%] mt-12" />

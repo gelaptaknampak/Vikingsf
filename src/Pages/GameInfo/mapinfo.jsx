@@ -32,7 +32,7 @@ export default function MapInfo() {
   };
 
   return (
-    <section className="h-full">
+    <section className="h-full font-['Bebas_Neue']">
       <div className="bg-cover bg-no-repeat main-background-container">
         {/* Logo & Border Line */}
         <div className="flex flex-col items-center justify-center mx-8">
