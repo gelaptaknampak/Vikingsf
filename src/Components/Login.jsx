@@ -10,10 +10,10 @@ const BASE_URL = "https://backend-viking-project-production.up.railway.app";
 // Buat instance axios khusus API
 const api = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
   },
+  withCredentials: true,
 });
 
 // Interceptor: ambil token dari cookie dan sisipkan ke header
