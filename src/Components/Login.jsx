@@ -136,7 +136,7 @@ export default function Login() {
               onClick={() => navigate("/register")}
               className="flex-1 !bg-white !hover:bg-gray-100 !text-black font-bold py-2 rounded shadow-md"
             >
-              REGISTER
+              REGIS
             </button>
           </div>
         </form>
