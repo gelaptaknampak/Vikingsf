@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from "../assets/Picture/LOGO VIKINGS 1.png";
 import Tree from "../assets/Picture/Tree Celtic.png";
 
+// BASE URL Backend Laravel
 const BASE_URL = "https://backend-viking-project-production.up.railway.app";
 
-// Set default axios config
-axios.defaults.withCredentials = true;
-axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+// Buat instance axios khusus API
+const api = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+  headers: {
+    "X-Requested-With": "XMLHttpRequest",
+  },
+});
 
-// Tambahkan interceptor untuk menyisipkan CSRF token dari cookie
-axios.interceptors.request.use((config) => {
+// Interceptor: ambil token dari cookie dan sisipkan ke header
+api.interceptors.request.use((config) => {
   const getCookie = (name) => {
     const match = document.cookie.match(
       new RegExp("(^| )" + name + "=([^;]+)")
@@ -33,30 +39,28 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const csrf = async () => {
-    await axios.get(`${BASE_URL}/sanctum/csrf-cookie`);
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      await csrf();
+      // Ambil cookie XSRF dari Laravel
+      await api.get("/sanctum/csrf-cookie");
 
-      await axios.post(`${BASE_URL}/login`, { username, password });
+      // Kirim login
+      await api.post("/login", { username, password }); // Ubah jadi { email, password } jika pakai Laravel default
 
-      const me = await axios.get(`${BASE_URL}/me`);
-
+      // Ambil user info setelah login
+      const me = await api.get("/me");
       const { user, role } = me.data;
+
+      setMessage(`Selamat datang, ${user.username}`);
 
       if (role === "admin") {
         navigate("/admin");
       } else {
         navigate("/");
       }
-
-      setMessage(`Selamat datang, ${user.username}`);
     } catch (error) {
       const errMsg =
         error.response?.data?.message ||
