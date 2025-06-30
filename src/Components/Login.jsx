@@ -1,10 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from "../assets/Picture/LOGO VIKINGS 1.png";
 import Tree from "../assets/Picture/Tree Celtic.png";
 
 const BASE_URL = "https://backend-viking-project-production.up.railway.app";
+
+// Set default axios config
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+
+// Tambahkan interceptor untuk menyisipkan CSRF token dari cookie
+axios.interceptors.request.use((config) => {
+  const getCookie = (name) => {
+    const match = document.cookie.match(
+      new RegExp("(^| )" + name + "=([^;]+)")
+    );
+    if (match) return decodeURIComponent(match[2]);
+  };
+
+  const xsrfToken = getCookie("XSRF-TOKEN");
+  if (xsrfToken) {
+    config.headers["X-XSRF-TOKEN"] = xsrfToken;
+  }
+
+  return config;
+});
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -13,9 +34,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const csrf = async () => {
-    await axios.get(`${BASE_URL}/sanctum/csrf-cookie`, {
-      withCredentials: true,
-    });
+    await axios.get(`${BASE_URL}/sanctum/csrf-cookie`);
   };
 
   const handleLogin = async (e) => {
@@ -25,17 +44,9 @@ export default function Login() {
     try {
       await csrf();
 
-      // Kirim login ke route web.php
-      await axios.post(
-        `${BASE_URL}/login`,
-        { username, password },
-        { withCredentials: true }
-      );
+      await axios.post(`${BASE_URL}/login`, { username, password });
 
-      // Ambil user setelah login sukses
-      const me = await axios.get(`${BASE_URL}/me`, {
-        withCredentials: true,
-      });
+      const me = await axios.get(`${BASE_URL}/me`);
 
       const { user, role } = me.data;
 
