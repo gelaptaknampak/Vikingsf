@@ -26,6 +26,10 @@ api.interceptors.request.use((config) => {
   };
 
   const xsrfToken = getCookie("XSRF-TOKEN");
+
+  console.log("[Axios] Interceptor running...");
+  console.log("✅ XSRF-TOKEN from cookie:", xsrfToken);
+
   if (xsrfToken) {
     config.headers["X-XSRF-TOKEN"] = xsrfToken;
   }
@@ -44,13 +48,20 @@ export default function Login() {
     setMessage("");
 
     try {
-      // Ambil cookie XSRF dari Laravel
-      await api.get("/sanctum/csrf-cookie");
+      console.log("🔄 Requesting CSRF cookie...");
 
-      // Kirim login
-      await api.post("/login", { username, password }); // Ubah jadi { email, password } jika pakai Laravel default
+      const csrfResponse = await api.get("/sanctum/csrf-cookie");
+      console.log("✅ /sanctum/csrf-cookie success:", csrfResponse.status);
 
-      // Ambil user info setelah login
+      const tokenInCookie = document.cookie.includes("XSRF-TOKEN");
+      console.log("🧁 XSRF-TOKEN exists in document.cookie?", tokenInCookie);
+
+      console.log("🔐 Sending login credentials...", { username, password });
+
+      const loginResponse = await api.post("/login", { username, password });
+
+      console.log("✅ Login successful:", loginResponse.status);
+
       const me = await api.get("/me");
       const { user, role } = me.data;
 
@@ -62,6 +73,14 @@ export default function Login() {
         navigate("/");
       }
     } catch (error) {
+      console.error("❌ Login error:", error);
+
+      if (error.response) {
+        console.error("🔍 Response data:", error.response.data);
+        console.error("🔍 Status:", error.response.status);
+        console.error("🔍 Headers:", error.response.headers);
+      }
+
       const errMsg =
         error.response?.data?.message ||
         error.message ||
