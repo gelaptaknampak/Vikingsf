@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from "../assets/Picture/LOGO VIKINGS 1.png";
@@ -16,7 +16,8 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Interceptor: ambil token dari cookie dan sisipkan ke header
+// Interceptor: ambil token dari cookie dan sisipkan ke header.
+// Kode ini sudah benar dan tidak perlu diubah.
 api.interceptors.request.use((config) => {
   const getCookie = (name) => {
     const match = document.cookie.match(
@@ -43,21 +44,29 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  // KUNCI PERBAIKAN: Minta CSRF cookie saat komponen pertama kali dimuat
+  useEffect(() => {
+    const getCsrfToken = async () => {
+      try {
+        console.log("🔄 Requesting CSRF cookie on component mount...");
+        await api.get("/sanctum/csrf-cookie");
+        console.log("✅ CSRF cookie should now be set by the browser.");
+      } catch (error) {
+        console.error("❌ Failed to fetch CSRF cookie on mount:", error);
+        setMessage("Gagal terhubung ke server. Coba muat ulang halaman.");
+      }
+    };
+    getCsrfToken();
+  }, []); // Array dependensi kosong `[]` memastikan ini hanya berjalan sekali
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      console.log("🔄 Requesting CSRF cookie...");
-
-      const csrfResponse = await api.get("/sanctum/csrf-cookie");
-      console.log("✅ /sanctum/csrf-cookie success:", csrfResponse.status);
-
-      const tokenInCookie = document.cookie.includes("XSRF-TOKEN");
-      console.log("🧁 XSRF-TOKEN exists in document.cookie?", tokenInCookie);
-
       console.log("🔐 Sending login credentials...", { username, password });
 
+      // Langsung kirim permintaan login, token sudah di-handle oleh useEffect & interceptor
       const loginResponse = await api.post("/login", { username, password });
 
       console.log("✅ Login successful:", loginResponse.status);
