@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from "../assets/Picture/LOGO VIKINGS 1.png";
 import Tree from "../assets/Picture/Tree Celtic.png";
+<<<<<<< HEAD
 
 // BASE URL Backend Laravel
 const BASE_URL = "https://backend-viking-project-production.up.railway.app";
@@ -36,6 +37,8 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+=======
+>>>>>>> parent of 8aa0359 (csrf)
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -48,7 +51,13 @@ export default function Login() {
     setMessage("");
 
     try {
+<<<<<<< HEAD
       console.log("🔄 Requesting CSRF cookie...");
+=======
+      const response = await api.post("/login", { username, password });
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+>>>>>>> parent of 8aa0359 (csrf)
 
       const csrfResponse = await api.get("/sanctum/csrf-cookie");
       console.log("✅ /sanctum/csrf-cookie success:", csrfResponse.status);
