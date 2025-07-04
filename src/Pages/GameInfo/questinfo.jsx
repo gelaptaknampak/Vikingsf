@@ -23,141 +23,131 @@ export default function QuestInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchQuestData = async () => {
-      try {
-        const [afterWarResponse, dailyResponse] = await Promise.all([
-          api.get(AFTERWAR_QUEST_URL),
-          api.get(DAILY_QUEST_URL),
-        ]);
+ // Ganti useEffect Anda dengan yang ini
 
-        if (!afterWarResponse.ok || !dailyResponse.ok) {
-          throw new Error("Failed to fetch quest data from the server.");
-        }
+useEffect(() => {
+  const fetchQuestData = async () => {
+    try {
+      // Promise.all tetap cara yang bagus untuk fetch data secara bersamaan
+      const [afterWarResponse, dailyResponse] = await Promise.all([
+        api.get(AFTERWAR_QUEST_URL),
+        api.get(DAILY_QUEST_URL),
+      ]);
 
-        const afterWarData = await afterWarResponse.data();
-        const dailyData = await dailyResponse.data();
+      // Dengan axios, data sudah ada di properti .data
+      // Pengecekan error HTTP (spt 404/500) sudah ditangani axios dan akan masuk ke catch.
+      const afterWarData = afterWarResponse.data;
+      const dailyData = dailyResponse.data;
 
-        let questsToSet = [];
+      let questsToSet = [];
 
-        // Afterwar Quest processing (no changes here)
-        if (Array.isArray(afterWarData) && afterWarData.length > 0) {
-          questsToSet.push({
-            title: "Daily Quest Afterwar",
-            content: (
-              <div className="w-full text-sm">
-                <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
-                  <div className="w-1/4">Daily Quest Afterwar</div>
-                  <div className="w-1/4">Map</div>
-                  <div className="w-1/4">Quest</div>
-                  <div className="w-1/4">Reward</div>
-                </div>
-                <div className="flex flex-col">
-                  {afterWarData.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex p-2 border-b border-gray-700 last:border-b-0"
-                    >
-                      <div className="w-1/4 font-semibold">
-                        {item.daily_quest}
+      // Afterwar Quest processing (tidak perlu diubah)
+      if (Array.isArray(afterWarData) && afterWarData.length > 0) {
+        questsToSet.push({
+          title: "Daily Quest Afterwar",
+          content: (
+            <div className="w-full text-sm">
+              {/* ... sisa JSX Anda untuk Afterwar Quest ... */}
+              <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
+                <div className="w-1/4">Daily Quest Afterwar</div>
+                <div className="w-1/4">Map</div>
+                <div className="w-1/4">Quest</div>
+                <div className="w-1/4">Reward</div>
+              </div>
+              <div className="flex flex-col">
+                {afterWarData.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex p-2 border-b border-gray-700 last:border-b-0"
+                  >
+                    <div className="w-1/4 font-semibold">
+                      {item.daily_quest}
+                    </div>
+                    <div className="w-1/4">{item.map}</div>
+                    <div className="w-1/4">
+                      {item.quest.split(",").map((q, i) => (
+                        <p key={i}>{q.trim()}</p>
+                      ))}
+                    </div>
+                    <div className="w-1/4">
+                      <ul className="list-none">
+                        {item.reward.split(",").map((r, i) => (
+                          <li key={i}>▸ {r.trim()}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ),
+        });
+      }
+
+      // Daily Quest processing (tidak perlu diubah)
+      const dayOrder = [
+        "Sunday", "Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday",
+      ];
+      const sortedDailyQuests = dayOrder.map((day) => {
+        const questsForDay = dailyData.filter(
+          (q) => q.day && q.day.toLowerCase() === day.toLowerCase()
+        );
+
+        return {
+          title: `Daily Quest [${day}]`,
+          content:
+            questsForDay.length > 0 ? (
+              <div className="flex flex-col gap-4">
+                {/* ... sisa JSX Anda untuk Daily Quest ... */}
+                {questsForDay.map((questItem, itemIndex) => (
+                  <div
+                    key={itemIndex}
+                    className="w-full text-sm border border-gray-700 rounded-md"
+                  >
+                    <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
+                      <div className="w-1/3">Tutorial</div>
+                      <div className="w-1/3">Quest</div>
+                      <div className="w-1/3">Reward</div>
+                    </div>
+                    <div className="flex p-2">
+                      <div className="w-1/3 pr-2">
+                        {questItem.tutorial.split(",").map((t, i) => (
+                          <p key={i}>{t.trim()}</p>
+                        ))}
                       </div>
-                      <div className="w-1/4">{item.map}</div>
-                      <div className="w-1/4">
-                        {item.quest.split(",").map((q, i) => (
+                      <div className="w-1/3 px-2 border-l border-r border-gray-700">
+                        {questItem.quest.split(",").map((q, i) => (
                           <p key={i}>{q.trim()}</p>
                         ))}
                       </div>
-                      <div className="w-1/4">
-                        <ul className="list-none">
-                          {item.reward.split(",").map((r, i) => (
-                            <li key={i}>▸ {r.trim()}</li>
-                          ))}
-                        </ul>
+                      <div className="w-1/3 pl-2">
+                        {questItem.reward.split(",").map((r, i) => (
+                          <p key={i}>{r.trim()}</p>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
+            ) : (
+              `Details for ${day}'s quest not available.`
             ),
-          });
-        }
+        };
+      });
 
-        // --- UPDATED: Logic to display ALL quests per day ---
-        const dayOrder = [
-          "Sunday",
-          "Saturday",
-          "Friday",
-          "Thursday",
-          "Wednesday",
-          "Tuesday",
-          "Monday",
-        ];
-        const sortedDailyQuests = dayOrder.map((day) => {
-          // CHANGED: Use .filter() to get ALL quests for a specific day, not just the first one.
-          const questsForDay = dailyData.filter(
-            (q) => q.day && q.day.toLowerCase() === day.toLowerCase()
-          );
+      setAllQuests([...questsToSet, ...sortedDailyQuests]);
 
-          return {
-            title: `Daily Quest [${day}]`,
-            // Check if the 'questsForDay' array has any items in it.
-            content:
-              questsForDay.length > 0 ? (
-                // If quests exist, create a container to stack them vertically
-                <div className="flex flex-col gap-4">
-                  {/* NEW: Loop over every quest found for that day */}
-                  {questsForDay.map((questItem, itemIndex) => (
-                    // Create a table for each quest item
-                    <div
-                      key={itemIndex}
-                      className="w-full text-sm border border-gray-700 rounded-md"
-                    >
-                      {/* Table Header */}
-                      <div className="flex bg-gray-800/50 font-bold p-2 rounded-t-md">
-                        <div className="w-1/3">Tutorial</div>
-                        <div className="w-1/3">Quest</div>
-                        <div className="w-1/3">Reward</div>
-                      </div>
-                      {/* Table Content */}
-                      <div className="flex p-2">
-                        {/* Use 'questItem' to access the data for the current quest in the loop */}
-                        <div className="w-1/3 pr-2">
-                          {questItem.tutorial.split(",").map((t, i) => (
-                            <p key={i}>{t.trim()}</p>
-                          ))}
-                        </div>
-                        <div className="w-1/3 px-2 border-l border-r border-gray-700">
-                          {questItem.quest.split(",").map((q, i) => (
-                            <p key={i}>{q.trim()}</p>
-                          ))}
-                        </div>
-                        <div className="w-1/3 pl-2">
-                          {questItem.reward.split(",").map((r, i) => (
-                            <p key={i}>{r.trim()}</p>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                `Details for ${day}'s quest not available.`
-              ), // Fallback message if no quests are found
-          };
-        });
+    } catch (err) {
+      // Tangkap error dari axios (misal: network error, 404, 500)
+      setError(err.message);
+      console.error("Error fetching quest data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setAllQuests([...questsToSet, ...sortedDailyQuests]);
-      } catch (err) {
-        setError(err.message);
-        console.error("Error fetching quest data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchQuestData();
-  }, []);
-
+  fetchQuestData();
+}, []);
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
