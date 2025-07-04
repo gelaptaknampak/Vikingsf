@@ -86,7 +86,7 @@ export default function MapInfo() {
               selectedMap.image ? (
                 <div className="flex justify-center my-4">
                   <img
-                    src={`${BACKEND_URL}/storage/mapinfo/${selectedMap.image}`}
+                    src={`${api}/storage/mapinfo/${selectedMap.image}`}
                     alt={selectedMap.map_name}
                     className="max-w-full h-auto border-4 border-white rounded-lg shadow-lg"
                   />
