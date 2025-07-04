@@ -4,12 +4,12 @@ import LOGO from "../../assets/Picture/LOGO VIKINGS 1.png";
 import Line from "../../assets/Picture/Line Border.png";
 import LineQuest from "../../assets/Picture/Line-Quest.png";
 import api from "../../Components/api";
-
 export default function MapInfo() {
-  const [maps, setMaps] = useState([]);
-  const [selectedMap, setSelectedMap] = useState(null);
+  const [maps, setMaps] = useState([]); // List dari backend
+  const [selectedMap, setSelectedMap] = useState(null); // Map yang dipilih
   const [loading, setLoading] = useState(true);
 
+  // Ambil data maps dari API saat halaman load
   useEffect(() => {
     const fetchMaps = async () => {
       try {
@@ -25,28 +25,29 @@ export default function MapInfo() {
     fetchMaps();
   }, []);
 
+  const getImageUrl = (image) => {
+  if (typeof image === "string" && image.trim() !== "") {
+    return `http://31.97.66.224:8000/storage/mapinfo/${image}`;
+  }
+  return null;
+};
+
+  // Handle map selection
   const handleMapSelect = (event) => {
     const selected = maps.find((map) => map.map_name === event.target.value);
     setSelectedMap(selected);
   };
 
-  const getImageUrl = (image) => {
-    if (typeof image === "string" && image.trim() !== "") {
-      return `http://31.97.66.224:8000/storage/mapinfo/${image}`;
-    }
-    return null;
-  };
-
   return (
     <section className="h-full font-['Bebas_Neue']">
       <div className="bg-cover bg-no-repeat main-background-container">
-        {/* Logo */}
+        {/* Logo & Border Line */}
         <div className="flex flex-col items-center justify-center mx-8">
           <img src={LOGO} alt="Logo" className="w-[25%] mt-12" />
           <img src={Line} alt="Line" className="w-full" />
         </div>
 
-        {/* Info */}
+        {/* Info Box */}
         <div className="flex flex-col gap-8 justify-between pt-12 w-full h-full px-16 pb-8">
           <div className="flex flex-col w-full h-full gold-border items-center p-4 gap-4">
             <div>MAP INFORMATION</div>
@@ -58,19 +59,27 @@ export default function MapInfo() {
             </div>
           </div>
 
-          {/* Map Dropdown */}
+          {/* Map List Section */}
           <div className="min-h-200 flex flex-col w-full h-full gold-border items-center gap-4 p-16">
+            {/* Dropdown */}
             <div className="flex justify-center gold-border items-center space-x-4 w-[80%] bg-[#D9D9D9] rounded-lg">
               <select
                 value={selectedMap ? selectedMap.map_name : ""}
                 onChange={handleMapSelect}
                 className="w-[95%] text-center bg-transparent text-white border-white py-2 focus:outline-none"
               >
-                <option value="">
+                <option
+                  className="bg-white text-black dark:bg-black/60"
+                  value=""
+                >
                   {loading ? "Loading Maps..." : "Select Map"}
                 </option>
                 {maps.map((map) => (
-                  <option key={map.id} value={map.map_name}>
+                  <option
+                    key={map.id}
+                    value={map.map_name}
+                    className="bg-white text-black dark:bg-black/60 dark:text-white"
+                  >
                     {map.map_name}
                   </option>
                 ))}
@@ -79,12 +88,12 @@ export default function MapInfo() {
 
             <img src={LineQuest} alt="Line" className="w-full" />
 
-            {/* Image */}
+            {/* Display selected map image */}
             {selectedMap ? (
-              getImageUrl(selectedMap.image) ? (
+              selectedMap.image ? (
                 <div className="flex justify-center my-4">
                   <img
-                    src={getImageUrl(selectedMap.image)}
+                   src={getImageUrl(selectedMap.image)}
                     alt={selectedMap.map_name}
                     className="max-w-full h-auto border-4 border-white rounded-lg shadow-lg"
                   />
