@@ -7,6 +7,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [username, setUsername] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [gameInfoOpen, setGameInfoOpen] = useState(false);
   const [role, setRole] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -66,34 +67,45 @@ export default function Header() {
 
           {/* Game Info Dropdown */}
           <div className="relative group">
-            <a className="hover:text-yellow-400 text-white">Game Info</a>
-            <div className="absolute top-full !left-1/2 transform -translate-x-1/2 w-36 bg-black/50 text-white mt-4 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              <a
-                href="/gameinfo/server"
-                className="block px-4 py-2 hover:bg-yellow-600/20"
-              >
-                Server Information
-              </a>
-              <a
-                href="/gameinfo/quest"
-                className="block px-4 py-2 hover:bg-yellow-600/20"
-              >
-                Quest Information
-              </a>
-              <a
-                href="/gameinfo/map"
-                className="block px-4 py-2 hover:bg-yellow-600/20"
-              >
-                Map Information
-              </a>
-              <img src={line} className="w-full px-4" alt="line" />
-              <a
-                href="/gameinfo/rules"
-                className="block px-4 py-2 hover:bg-yellow-600/20"
-              >
-                Server Rules
-              </a>
-            </div>
+            <span
+              className="hover:text-yellow-400 text-white"
+              onClick={() => setGameInfoOpen(!gameInfoOpen)}
+            >
+              Game Info
+            </span>
+            {gameInfoOpen && (
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-36 bg-black/50 text-white mt-4 shadow-lg z-50">
+                <a
+                  href="/gameinfo/server"
+                  className="block px-4 py-2 hover:bg-yellow-600/20"
+                  onClick={() => setGameInfoOpen(false)}
+                >
+                  Server Information
+                </a>
+                <a
+                  href="/gameinfo/quest"
+                  className="block px-4 py-2 hover:bg-yellow-600/20"
+                  onClick={() => setGameInfoOpen(false)}
+                >
+                  Quest Information
+                </a>
+                <a
+                  href="/gameinfo/map"
+                  className="block px-4 py-2 hover:bg-yellow-600/20"
+                  onClick={() => setGameInfoOpen(false)}
+                >
+                  Map Information
+                </a>
+                <img src={line} className="w-full px-4" alt="line" />
+                <a
+                  href="/gameinfo/rules"
+                  className="block px-4 py-2 hover:bg-yellow-600/20"
+                  onClick={() => setGameInfoOpen(false)}
+                >
+                  Server Rules
+                </a>
+              </div>
+            )}
           </div>
 
           <a href="/download" className="hover:underline text-white">
