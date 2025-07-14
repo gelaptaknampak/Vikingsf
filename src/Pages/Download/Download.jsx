@@ -47,26 +47,28 @@ const DownloadSection = () => {
 
   return (
     <section className="h-full font-['Bebas_Neue']">
-      <div className="bg-cover bg-no-repeat main-background-container text-left">
-        <div className="flex flex-col items-center justify-center mx-8">
-          <img src={LOGO} alt="Logo" className="w-[25%] mt-12" />
-          <img src={Line} alt="Line" className="w-full" />
+      <div className="bg-cover bg-no-repeat main-background-container text-left overflow-x-hidden">
+        {/* Logo */}
+        <div className="flex flex-col items-center justify-center px-4 sm:px-8 mt-12">
+          <img src={LOGO} alt="Logo" className="w-32 sm:w-44 md:w-[25%]" />
+          <img src={Line} alt="Line" className="w-full mt-4" />
         </div>
 
-        <div className="justify-center py-8 text-left">
-          <div className="w-[1195px] mx-auto p-[2px] box-border rounded-lg gold-border bg-opacity-10">
-            <div className="p-6">
-              <h2 className="text-3xl font-bold mb-6 text-white text-center mx-auto">
+        {/* Content */}
+        <div className="justify-center py-8 text-left px-4 sm:px-6">
+          <div className="w-full max-w-[1195px] mx-auto box-border rounded-lg gold-border bg-opacity-10">
+            <div className="p-4 sm:p-6">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-white text-center">
                 DOWNLOAD
               </h2>
               <img src={Separator} alt="separator" className="w-full my-4" />
 
               {sections.map((section) => (
-                <div key={section.id} className="mb-10 px-8">
-                  <h3 className="text-lg font-semibold text-white mb-1">
+                <div key={section.id} className="mb-10">
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-2">
                     {section.title}
                   </h3>
-                  <a className="text-sm text-white mb-4 cursor-pointer transition-colors duration-300 hover:text-yellow-400">
+                  <a className="text-sm text-white mb-4 cursor-pointer block hover:text-yellow-400">
                     README
                   </a>
 
@@ -79,12 +81,14 @@ const DownloadSection = () => {
                   {section.files.map((file, i) => (
                     <div
                       key={i}
-                      className="relative flex justify-between items-center py-2 px-4 mb-2 bg-white/10 rounded"
+                      className="relative flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 px-4 mb-2 bg-white/10 rounded"
                     >
-                      <span className="text-white">{file.name}</span>
+                      <span className="text-white text-sm sm:text-base">
+                        {file.name}
+                      </span>
 
                       {/* SIZE DITENGAH */}
-                      <div className="absolute left-1/2 transform -translate-x-1/2 text-white">
+                      <div className="text-white text-sm sm:text-base sm:absolute sm:left-1/2 sm:transform sm:-translate-x-1/2 mt-1 sm:mt-0">
                         {file.size}
                       </div>
 
@@ -104,9 +108,10 @@ const DownloadSection = () => {
           </div>
         </div>
 
-        <div className="items-center justify-center pb-4">
-          <img src={Line} alt="Line" className="w-full" />
-          <div className="flex flex-row justify-center items-center gap-2">
+        {/* Footer Sosmed */}
+        <div className="flex flex-col items-center justify-center pb-6 px-4 sm:px-0">
+          <img src={Line} alt="Line" className="w-full mb-4" />
+          <div className="flex flex-wrap justify-center items-center gap-4 text-xl text-white">
             <a
               href="https://www.instagram.com/rfvikings"
               target="_blank"
