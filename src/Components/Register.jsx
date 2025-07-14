@@ -38,7 +38,6 @@ export default function Register() {
     }
 
     try {
-      await csrf(); // Memastikan CSRF token sudah diambil
       const response = await api.post("/register", {
         username,
         email,
