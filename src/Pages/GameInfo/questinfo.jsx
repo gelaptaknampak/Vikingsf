@@ -31,10 +31,6 @@ export default function QuestInfo() {
           api.get(DAILY_QUEST_URL),
         ]);
 
-        if (!afterWarResponse.ok || !dailyResponse.ok) {
-          throw new Error("Failed to fetch quest data from the server.");
-        }
-
         const afterWarData = await afterWarResponse.data();
         const dailyData = await dailyResponse.data();
 
