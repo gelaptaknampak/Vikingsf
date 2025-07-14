@@ -12,10 +12,8 @@ import Line from "../../assets/Picture/Line Border.png";
 import LineQuest from "../../assets/Picture/Line-Quest.png";
 import api from "../../Components/api";
 
-const AFTERWAR_QUEST_URL =
-  "/game-info/quest-information/dailyquestafterwar";
-const DAILY_QUEST_URL =
-  "/game-info/quest-information/dailyquest";
+const AFTERWAR_QUEST_URL = "/game-info/quest-information/dailyquestafterwar";
+const DAILY_QUEST_URL = "/game-info/quest-information/dailyquest";
 
 export default function QuestInfo() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -31,8 +29,8 @@ export default function QuestInfo() {
           api.get(DAILY_QUEST_URL),
         ]);
 
-        const afterWarData = await afterWarResponse.data();
-        const dailyData = await dailyResponse.data();
+        const afterWarData = await afterWarResponse.data;
+        const dailyData = await dailyResponse.data;
 
         let questsToSet = [];
 
