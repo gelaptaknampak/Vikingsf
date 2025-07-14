@@ -7,6 +7,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [username, setUsername] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [gameInfoOpen, setGameInfoOpen] = useState(false);
   const [role, setRole] = useState(null);
   const dropdownRef = useRef(null);
 
