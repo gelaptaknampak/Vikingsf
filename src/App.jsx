@@ -25,7 +25,6 @@ import api from "./Components/api";
 import Admin from "../src/Pages/Admin/main";
 
 // Tables
-import UsersTable from "./Components/UserTable";
 import ServerRules from "./Components/GameInfo/ServerRules";
 import MapInfoAdmin from "./Components/MapInfo/MapInfo";
 
@@ -199,7 +198,6 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="table-list/users" element={<UsersTable />} />
 
           <Route path="table-list/game-info">
             <Route path="items" element={<ItemsInfo />} />
