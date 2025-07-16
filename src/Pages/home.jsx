@@ -62,7 +62,7 @@ export default function Home() {
     api
       .get("/news")
       .then((res) => {
-        console.log("Data dari /news:", res.data);
+        // console.log("Data dari /news:", res.data);
         setCarouselData(res.data.slice(0, 3));
       })
       .catch((err) => {
@@ -72,9 +72,9 @@ export default function Home() {
 
   const [current, setCurrent] = useState(0);
   const prevSlide = () =>
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrent((prev) => (prev === 0 ? carouselData.length - 1 : prev - 1));
   const nextSlide = () =>
-    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrent((prev) => (prev === carouselData.length - 1 ? 0 : prev + 1));
   const currentSlide = carouselData.length > 0 ? carouselData[current] : null;
 
   return (
