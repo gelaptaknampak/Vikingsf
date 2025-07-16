@@ -23,7 +23,6 @@ import api from "./Components/api";
 
 // --- Admin Dashboard
 import Admin from "../src/Pages/Admin/main";
-import DashboardLayout from "./Components/DashboardLayout";
 import Dashboard from "./Page/Dashboard";
 
 // Tables
