@@ -11,6 +11,7 @@ import profile from "../assets/Picture/profile.png";
 import Cora from "../assets/Picture/Cora.png";
 import Bellato from "../assets/Picture/Bellato.png";
 import Accretia from "../assets/Picture/accretia.png";
+import api from "../Components/api";
 
 export default function Home() {
   const raceStats = [
@@ -55,28 +56,26 @@ export default function Home() {
     }
   };
 
-  const slides = [
-    { id: 1, title: "LOREM IPSUM", description: "Lorem ipsum...", image: atas },
-    {
-      id: 2,
-      title: "DOLOR SIT AMET",
-      description: "Vivamus quis...",
-      image: news,
-    },
-    {
-      id: 3,
-      title: "CONSECTETUR ELIT",
-      description: "Sed consequat...",
-      image: news,
-    },
-  ];
+  const [carouselData, setCarouselData] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/news")
+      .then((res) => {
+        console.log("Data dari /news:", res.data);
+        setCarouselData(res.data.slice(0, 3));
+      })
+      .catch((err) => {
+        console.error("Gagal mengambil data dari backend:", err);
+      });
+  }, []);
 
   const [current, setCurrent] = useState(0);
   const prevSlide = () =>
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   const nextSlide = () =>
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  const currentSlide = slides[current];
+  const currentSlide = carouselData[current];
 
   return (
     <section className="h-full font-['Bebas_Neue']">
