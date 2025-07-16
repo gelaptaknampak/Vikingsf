@@ -75,7 +75,7 @@ export default function Home() {
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   const nextSlide = () =>
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  const currentSlide = carouselData[current];
+  const currentSlide = carouselData.length > 0 ? carouselData[current] : null;
 
   return (
     <section className="h-full font-['Bebas_Neue']">
@@ -88,58 +88,60 @@ export default function Home() {
         <div className="flex flex-col gap-8 justify-between pt-12 w-full h-full px-16">
           <div className="flex flex-row gap-8">
             <div className="relative w-full overflow-hidden gold-border dark:blue-border">
-              <div
-                className="w-full h-full bg-cover transition-all duration-700"
-                style={{ backgroundImage: `url(${currentSlide.image})` }}
-              >
-                <div className="absolute bottom-0 w-full h-1/3 bg-gradient-to-t from-black to-transparent px-8 py-4 text-white text-left border-t border-[#FFC86E]/60">
-                  <h2
-                    className="text-3xl text-white"
-                    style={{ WebkitTextStroke: "1px #FFC86E" }}
+              {currentSlide && (
+                <div
+                  className="w-full h-full bg-cover transition-all duration-700"
+                  style={{ backgroundImage: `url(${currentSlide.image})` }}
+                >
+                  <div className="absolute bottom-0 w-full h-1/3 bg-gradient-to-t from-black to-transparent px-8 py-4 text-white text-left border-t border-[#FFC86E]/60">
+                    <h2
+                      className="text-3xl text-white"
+                      style={{ WebkitTextStroke: "1px #FFC86E" }}
+                    >
+                      {currentSlide.title}
+                    </h2>
+                    <p className="text-lg">{currentSlide.description}</p>
+                  </div>
+                  <button
+                    onClick={prevSlide}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 rounded-full"
                   >
-                    {currentSlide.title}
-                  </h2>
-                  <p className="text-lg">{currentSlide.description}</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <button
-                  onClick={prevSlide}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 rounded-full"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
+              )}
             </div>
 
             <div className="w-[40%] flex flex-col gap-4 rounded-lg p-8 gold-border">
