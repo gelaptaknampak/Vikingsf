@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../../Components/Admin_Sidebar";
 import NewsPage from "./MasterNews";
-import DashboardLayout from "../../Components/DashboardLayout";
 
 // Import semua komponen konten yang akan dipanggil
 // import UserTable from "./Tables/UserTable";

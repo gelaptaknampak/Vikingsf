@@ -197,7 +197,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          {/* <Route index element={<Dashboard />} /> */}
 
           <Route path="table-list/game-info">
             <Route path="items" element={<ItemsInfo />} />
