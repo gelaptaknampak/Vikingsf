@@ -14,20 +14,6 @@ import Accretia from "../assets/Picture/accretia.png";
 import api from "../Components/api";
 
 export default function Home() {
-  const [carouselData, setCarouselData] = useState([]);
-
-  useEffect(() => {
-    api
-      .get("/news")
-      .then((res) => {
-        console.log("Data dari /news:", res.data);
-        setCarouselData(res.data.slice(0, 3));
-      })
-      .catch((err) => {
-        console.error("Gagal mengambil data dari backend:", err);
-      });
-  }, []);
-
   const raceStats = [
     { icon: Cora, players: 100, kills: 0 },
     { icon: Accretia, players: 100, kills: 0 },
@@ -69,6 +55,20 @@ export default function Home() {
         return "text-gray-300";
     }
   };
+
+  const [carouselData, setCarouselData] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/news")
+      .then((res) => {
+        console.log("Data dari /news:", res.data);
+        setCarouselData(res.data.slice(0, 3));
+      })
+      .catch((err) => {
+        console.error("Gagal mengambil data dari backend:", err);
+      });
+  }, []);
 
   const [current, setCurrent] = useState(0);
   const prevSlide = () =>
