@@ -26,7 +26,7 @@ export default function Login() {
       const { user, role } = makeResponse.data;
 
       if (role === "admin") {
-        navigate("/");
+        navigate("/Admin");
       } else if (role === "user") {
         navigate("/");
       }
